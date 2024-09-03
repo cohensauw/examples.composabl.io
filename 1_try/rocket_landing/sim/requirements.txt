@@ -1,5 +1,0 @@
-composabl-core-dev
-scipy
-casadi
-ipython
-ipywidgets
