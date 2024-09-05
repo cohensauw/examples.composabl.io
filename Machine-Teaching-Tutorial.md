@@ -366,31 +366,6 @@ What about assigning the right technology to the skills? In this agent, all of t
 ***
 
 
-## Module 3: Build the Strategy Pattern Agent
-
-Now that you are familiar with the strategy pattern agent design, you are going to build the agent, train it, and then evaluate its performance and compare it to the single-skill agent designs.
-
-Inside your tutorial folder, you will find a starter kit of agent files.
-
-- ```agent.py``` |
-The [agent](## "The foundation of a Composabl agent, that all the other parts attach to") file organizes all the code for your agent, and is where you will add all the components you develop.
-
-- ```scenarios.py``` | The [scenarios](## "Different situations where the agent needs to perform differently to succeed") file identifies the sensor values that define each scenario.
-
-- ```teacher. py``` | The [teacher](## "File that contains the training parameters and rewards for the learned skills in an agent") file contains parameters for how each skill will practice in simulation to get better at the task.
-
-- ```config.py``` | The [config](## "File that contains the information about how an agent will run") file contains the information that tells the agent how to run, including the Composabl license key and the compute enviornment.
-
-- ```sensors.py``` | The [sensors](## "Parts of an agent that report data about conditions in the simulation or the real world") file organizes the data provided by the simulator or the real system.
-
-Some of the agent has already been built for you. Because this tutorial focuses on building the capabilities of the agent that are unique to the Machine Teaching methodology, files that are not directly related to these Machine Teaching capabilites are pre-populated and complete.
-
-The other files are partially complete, and require you to add additional code to create agent components. As you put the agent together, you will learn about the function and syntax for these agent components. You will focus on:
-- **Breaking the process into separate modular skills**: Your starter kit agent only has one skill. You will add two additional action skills to complete the strategy pattern.
-- **Orchestrating the skills together**: Your selector skill is already ceated, but you will create scenarios for the selector to use to determine which skill to use.
-- **Selecting the right technology for each skill**: You will add the additional skills to the teacher so that they can learn with deep reinforcement learning.
-
-This tutorial focuses on the basics. You can also refer to the [full SDK documentation]("/https://docs.composabl.io/") for additional explanations and resources.
 
 <details>
 
@@ -417,109 +392,13 @@ Here are the variables and other information in the simulator your agent will co
 - Noise_percentage – sensor noise
 </details>
 
-### Steps to Build the Agent
 
-These are the steps you will take the complete the agent:
 
-1. Create the scenarios for the additional skills
-2. Add the additional skills in the teacher
-3. Update the agent file
-    - Import the new teachers
-    - Import the new scenarios
-    - Add new skills to the ```run_agent``` function
-    - Add new skills to the agent using the ```add.skill()``` method
-    - Add new skills to the selector
 
-#### Step 1: Create Scenarios
 
-Open ```sensors.py``` and ```scenarios.py```.
 
-The sensors file is complete, but it is useful for reference. It lists and defines the sensor variables that the agent will use to process information.
 
-The scenarios file tells the agent how to determine the scenario at each moment of the process. Sometimes the scenarios file will contain the specific sensor values that tell the agent where the boundaries between scenarios are.
 
-How do you know what these sensor values should be? This is one of the ways that Machine Teaching leverages human knowledge and expertise to make AI effective. If you are already a process expert, you will use your own data to define the scenarios. If not, you will need to interview a process expert to find out the data.
-
-In this case, the scenarios map to information that is part of the simulator. That means that you only need to add the scenario names for the two additional scenarios to the file. Follow the syntax for the ```start_reaction``` scenario and add ```navigate_transition```,  ```produce_product``` and ```selector```.
-
-Save the file when you are done.
-
-#### Step 2: Add Skills in the Teacher
-
-Next, you will edit the teacher file to set up training for the skills in your agent.
-
-Open ```teacher.py```.
-
-There is only 1 teacher defined (StartReactionTeacher) and the selector CSTRTeacher.
-
-This is to give you an idea of what the additional skills will look like that you need to create. The strategy pattern for IM agent contains 3 skills and 1 selector.
-
-You will create the Navigate Transition and Produce Product skills.
-Copy the code for StartReactionTeacher and paste it 2 times. Rename the teachers to NavigateReactionTeacher, ProduceProductTeacher. You will also need to edit the names of the self.title and self.history_path to reflect your new naming convention. See screenshot below for an example.
-
-![code sample](/2_learn/chemical_process_control/agents/img/teacher.png)
-
-Save the file.
-
-#### Step 3: Update the Agent File
-
-Now that you have added skills to the teacher, you need to update the agent file with those skills.
-
-Open ```agent.py```. Then update the code in five places.
-
-1. Import the new teachers you just created (line 9). Follow the syntax for the teachers already in the code.
-
-2. Import the new scenarios you just created (line 11). Follow the syntax for the scenarios already in the code.
-
-3. Add the new skills, along with their scenarios and teachers, to the definition of the ```run_agent``` function (line 20). Follow the same syntax used for the ```start_reaction_skill```.
-
-4. Add the new skills to the agent using the ```add_skill()``` method (line 36). Follow the syntax used for the ```start_reaction_skill```.
-
-5. Add the new skills to the selector (line 40) by adding them to the bracket containing ```[start_reaction_skill]```. Separate the skills with commas.
-
-Save your file. You are now ready to train your agent!
-
-## Module 4: Training and Operating Your Agent
-
-### Training Your Agent
-
-You will train and operate your agent from the command line of your Codespace, using these steps.
-
-1. Navigate to the correct folder by entering ```2_learn/chemical_process_control/2_hour_tutorial/strategy_pattern```.
-2. Start the Composabl historian to track agent behavior. Type ```composabl historian start```.
-3. Train your agent by typing ```python agent.py```.
-
-#### Training to and from a Checkpoint
-
-Your agent will train each skill and then save the training progress to a "checkpoint." This allows MORE INFO MORE INFO. You will see a message like this, which means MORE INFO MORE INFO:
-
-![saved skill message](/2_learn/chemical_process_control/agents/2_hour_tutorial/img/saving-skill.png)
-
-Now we need to check the operation of the trained agent. This is done by starting another instance of the simulator locally and calling the agent_inference python file.
-
-In VS Code open a new terminal by clicking on the drop down icon on the top right of the terminal window. It is next to the + icon. Select zsh to open a new terminal.
-
-Type ```cd 2_learn/chemical_process_control/sim/src/``` to get to the correct location.
-
-Type ```python main.py```. To confirm that the sim has started a message saying ```listening on [::]:1337``` should be displayed.
-
-See screenshot for example:
-
-![sim message](/2_learn/chemical_process_control/agents/2_hour_tutorial/img/sim.png)
-
-Go back to the other terminal window. Check you are in the ```2_learn/chemical_process_control/2_hour_tutorial/strategy_pattern``` folder.
-
-To run the Operate function for the previously trained agent type ```python agent_inference.py```. Successful operations will result in a message that looks like this screenshot:
-
-![successful operation screenshot](/2_learn/chemical_process_control/agents/2_hour_tutorial/img/operation.png)
-
-In VSCode file explorer open the ```inference_figure.png``` file located in the benchmarks folder. This is the output from operation, and you can see the results of the agent's performance.
-
-To start training the agent from a saved checkpoint ensure that you are in the main directory where the agent is located.
-
-Change the agent.py file training iterations (around line 44) from 2 to 20. Save the agent file.
-
-Run ```python agent.py``` to start training again.
 
 #### Analyzing Agent Performance - Agent 3
 
@@ -530,7 +409,7 @@ The strategy-pattern agent had a **conversion rate of 93%** and no risk of therm
 ![strategy pattern results](./img/strategy-result.png)
 
 
-## Module 5: Design Patterns for Agents
+## Module 4: Design Patterns for Agents
 
 You just learned about the strategy pattern and how it addresses the needs of the use case. In this module, you will about an additional element that can be added to designs - a perception layer - and a different design pattern - the plan-execute pattern. We will compare results for five different designs that use the different patterns.
 

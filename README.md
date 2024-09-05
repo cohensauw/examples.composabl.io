@@ -11,11 +11,29 @@ With your trial, you can:
 - Drag and drop modules to create agents
 - Train agents and compare their performance
 
-You’ll have access to both parts of the Composabl platform, the Python SDK and the no-code UI. This two-part platform reflects that fact that big real-world problems need multiple skill sets at the table: people who work with code, and people who work with processes.
+## Who Should Use Composabl
+
+The Composabl platform includes a Python SDK and a no-code UI. This two-part platform reflects that fact that big real-world problems need multiple skill sets at the table: people who work with code, and people who work with processes.
 
 If you are a data scientist or software engineer, you’ll likely spend most of your time using Composabl in the SDK, creating ML and RL models and simulators. So you may want to focus on exploring and editing the Python files in this repository during your trial.
 
 If you’re a process engineer or subject matter expert, on the other hand, you’ll spend most of your time in the no-code UI designing and training agents to succeed in your use cases. This repository is also for you, but you may want to spend less time here and focus on using the UI during your trial.
+
+## Machine Teaching
+
+Composabl is designed to make it easy to implement Machine Teaching, the engineering methodology for creating AI agents. Machine Teaching is a way to infuse human expertise into AI by breaking down tasks into individual skills so that AI can learn more efficiently, perform better, and be more explainable.
+
+This [Machine Teaching tutorial](./Machine-Teaching-Tutorial.md) provides a quick introduction to key concepts applied to the sample use case.
+
+## Use Case Summary
+
+The industrial mixer use case is a realistic case study of an agent controlling a continuous stirred tank chemical reaction. Read more about the case study and the agents that solved it in our whitepaper [Use Cases for Intelligent Agents: Industrial Mixer](https://cdn.prod.website-files.com/65973bba7be64ecd9a0c2ee8/663a811ded2167215bf3b9cf_Industrial%20Mixer%20Whitepaper.pdf).
+
+The industrial mixer agent controls the temperature in a tank where a chemical reaction occurs to create a product.
+
+![chemical tanks](./Sample%20Project:%20Industrial%20Mixer/img/tanks.jpg)
+
+As the chemicals are stirred together in the tank, the reaction produces heat at a nonlinear, unpredictable rate. If the tank isn’t cooled enough, it can reach dangerous temperatures, a condition called thermal runaway. If it’s cooled too much, less product will be produced. The agent needs to balance these two goals, keeping the tank at the right temperature at every moment to maximize production while ensuring safety.
 
 ## How to Use This Repository
 
@@ -26,7 +44,35 @@ This GitHub repository contains all the pre-loaded Python files that you can use
 - Publish them to the UI to use in agents
 
 ### Simulator
-Explore the [simulator file](./Sample%20Project:%20Industrial%20Mixer/Simulation/20Industrial) to see how Composabl simulators are structured.
+
+The simulator is the virtual environment where the agent can practice and learn before trying to control the real system. Explore the [simulator file](./Sample%20Project:%20Industrial%20Mixer/Simulation/20Industrial) to see how Composabl simulators are structured.
+
+<details>
+
+<summary>Learn more about the variables for this use case</summary>
+Do you want to know more about the simulator for this use case?
+Here are the variables and other information in the simulator your agent will connect to.
+
+##### State Variables
+- Ca – Residual (A) concentration – output (y1)
+- T (Controlled Variable) – Reactor Temperature (y2)
+- Cref – Reference Concentration – Setpoint (SP)
+- Tref – Reference Temp- Setpoint (SP)
+- Tc (Manipulated Variable) – Coolant Fluid Temperature (u3)
+##### Goals
+- Minimize Ca (residual concentration)
+- Prevent Thermal Runaway
+##### Constraints
+- dTc +- 10  oC
+- T < 400 oC
+##### Action (delta MV)
+- Tc_adjust – Coolant Fluid Temp Variation
+##### Config
+- Cref_signal – signal for Cref and Tref
+- Noise_percentage – sensor noise
+</details>
+
+
 
 ### Perceptors
 
