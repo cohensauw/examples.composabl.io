@@ -1,7 +1,7 @@
 [project]
-name = "blank-skill"
+name = "-skill-template-teacher"
 version = "0.1.0"
-description = "A template for a skill that can be published to the Composabl UI"
+description = "A template for a teacher"
 authors = [{ name = "John Doe", email = "john.doe@composabl.com" }]
 dependencies = [
     "composabl-core"
@@ -9,4 +9,4 @@ dependencies = [
 
 [composabl]
 type = "skill-teacher"
-entrypoint = "blank_skill.teacher:Teacher"
+entrypoint = "_skill_template_teacher.teacher:Teacher"
